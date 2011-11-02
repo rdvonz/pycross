@@ -8,7 +8,14 @@ FEATURES TO PUT IN THIS PICROSS THING.
 	-time is lost if a wrong square is filled in, causes a game over when timer equals zero
 -hint feature
 	-roulette-type thing at start of game randomly fills in a vertical and horizontal line of the puzzle
+	-at least fill in lines, roulette bit is optional
 -.bmp support
 	-can import .bmp files, convert each pixel into a puzzle
 	-possibly show color version after completion of puzzle
 	-should these be a specific size, or should the game be able to handle multiple puzzle sizes/any puzzle size?
+- picross editor
+- picross solver
+- Tournament mode
+- Menu system
+- Picross tiles get converted into Opengl vectors (primitives...?)
+- 
