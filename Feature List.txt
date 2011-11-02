@@ -1,0 +1,14 @@
+FEATURES TO PUT IN THIS PICROSS THING.
+
+-Basic picross game
+	-could use mouse or keyboard/gamepad input
+	-picross-type gameplay
+	-can fill in, erase, or mark squares
+-Timer feature
+	-time is lost if a wrong square is filled in, causes a game over when timer equals zero
+-hint feature
+	-roulette-type thing at start of game randomly fills in a vertical and horizontal line of the puzzle
+-.bmp support
+	-can import .bmp files, convert each pixel into a puzzle
+	-possibly show color version after completion of puzzle
+	-should these be a specific size, or should the game be able to handle multiple puzzle sizes/any puzzle size?
