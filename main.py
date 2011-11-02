@@ -4,8 +4,8 @@ from math import pi, sin, cos
 
 window = pyglet.window.Window()
 def createCircle(radius, center, verts):
-#    x = cos(angle) = radius / y
-#    y = sin(angle) = radius / x
+#    x = cos(angle)
+#    y = sin(angle)
 #    number of side is determined from number of steps from 0 to 2*pi
     step =  2*pi/verts
     vertList = []
