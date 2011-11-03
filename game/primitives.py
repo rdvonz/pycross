@@ -46,10 +46,11 @@ class Rectangle(object):
     '''
     
     def __init__(self, width, length, x, y, batch, group=None):
-        v0 = (x - int(width / 2), y + int(length / 2))
-        v1 = (x - int(width / 2), y - int(length / 2))
-        v2 = (x + int(width / 2), y + int(length / 2))
-        v3 = (x + int(width / 2), y - int(length / 2))
-        vertices = [v0[0], v0[1], v1[0], v1[1], v2[0], v2[1], v3[0], v3[1]]
-        self.vertex_list = 
+        xone = x-(width/2)
+        xtwo = x+(width/2)
+        yone = y-(length/2)
+        ytwo = y+(length/2)
+        vertices = (xone, yone, xone, ytwo, xtwo, ytwo, xtwo, yone)
+        indices = [0,1,2,0,2,3]
+        self.vertex_list = batch.add_indexed(4, GL_TRIANGLES, group, indices, ('v2f', vertices))
         
