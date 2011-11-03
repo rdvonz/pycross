@@ -16,13 +16,12 @@ square = primitives.Rectangle(color=(123, 132, 100), x=100, y=100, length=40, wi
 def on_draw():
     window.clear()
     batch.draw()
+def on_mouse_motion(x, y, button, modifiers):
+    print x, y
 
 def update(dt):
-    #This is probably not the correct way to do this
-    for i in range(0,len(circle.vertex_list.vertices)):
-        if i%2==0:
-            circle.vertex_list.vertices[i]+=1
-    batch.draw()
+    #This is probably not the correct way to do this)
+    window.push_handlers(on_mouse_motion)
     
 
 if __name__ == '__main__':

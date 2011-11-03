@@ -12,7 +12,8 @@ class Circle(object):
     Draws a beautiful circle
     '''
 
-    def __init__(self, batch, x=None, y=None, verts=None, radius=None, color=(), group=None):
+    def __init__(self, batch, x=None, y=None, 
+                 verts=None, radius=None, color=(), group=None):
         #List of points
         self.radius = radius
         vertices = []
@@ -43,20 +44,33 @@ class Circle(object):
             colorIndex.append(color[0])
             colorIndex.append(color[1])
             colorIndex.append(color[2])
-        self.vertex_list = batch.add_indexed(verts+2, GL_TRIANGLES, group, indices, ('v2f', vertices),('c3B', colorIndex))
+        self.vertex_list = batch.add_indexed(verts+2, GL_TRIANGLES, 
+                                             group, indices, 
+                                             ('v2f', vertices),
+                                             ('c3B', colorIndex))
+        
+    def velocity(self, velocity_x, velocity_y):
+        for i in range(0,len(self.vertex_list.vertices)):
+            if i%2==0:
+                self.vertex_list.vertices[i]+=velocity_x
+            else:
+                self.vertex_list.vertices[i]+=velocity_y
         
 class Rectangle(object):
     '''
     
     '''
     
-    def __init__(self, batch, width=0, length=0, x=0, y=0, color=(), group=None):
+    def __init__(self, batch, width=0, 
+                 length=0, x=0, y=0, 
+                 color=(), group=None):
         xone = x-(width/2)
         xtwo = x+(width/2)
         yone = y-(length/2)
         ytwo = y+(length/2)
         
-        vertices = (xone, yone, xone, ytwo, xtwo, ytwo, xtwo, yone)
+        vertices = (xone, yone, xone, 
+                    ytwo, xtwo, ytwo, xtwo, yone)
         
         indices = [0,1,2,0,2,3]
         colorIndex = []
@@ -65,5 +79,7 @@ class Rectangle(object):
             colorIndex.append(color[1])
             colorIndex.append(color[2])
             
-        self.vertex_list = batch.add_indexed(4, GL_TRIANGLES, group, indices, ('v2f', vertices), ('c3B', colorIndex))
+        self.vertex_list = batch.add_indexed(4, GL_TRIANGLES, group, indices, 
+                                             ('v2f', vertices), 
+                                             ('c3B', colorIndex))
         
