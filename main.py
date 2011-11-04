@@ -6,7 +6,7 @@ window = pyglet.window.Window()
 #pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
 
-cursor = mouse.MouseMovement()
+cursor = window.set_mouse_cursor(pyglet.window.ImageMouseCursor(resources.cursor))
 #circle = primitives.Circle(x=window.width / 2, y=window.height / 2,
 #                           radius=50, verts=50, color=(255, 0, 0),
 #                           batch=batch)
@@ -32,7 +32,7 @@ def draw_grid(num_x, num_y, spacing, x, y, length, width):
 
     return primitive_list
 
-grid = draw_grid(50, 50, 6, (window.width/2)-(20*5+5), (window.height/2)-(20*5+5), 5, 5)
+grid = draw_grid(50, 50, 11, 0, 11*5, 10, 10)
 
 @window.event
 def on_draw():
