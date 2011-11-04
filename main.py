@@ -9,7 +9,7 @@ pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 cursor = mouse.MouseMovement()
 #circle = primitives.Circle(x=window.width / 2, y=window.height / 2,
 #                           radius=50, verts=50, color=(255, 0, 0),
-                           batch=batch)
+#                           batch=batch)
 
 #square = primitives.Rectangle(color=(123, 132, 100), x=100, y=100, length=40,
 #                              width=40, batch=batch)
