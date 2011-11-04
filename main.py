@@ -3,7 +3,7 @@ from game import primitives, mouse, resources
 
 batch = pyglet.graphics.Batch()
 window = pyglet.window.Window()
-pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
+#pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
 
 cursor = mouse.MouseMovement()
@@ -32,8 +32,7 @@ def draw_grid(num_x, num_y, spacing, x, y, length, width):
 
     return primitive_list
 
-grid = draw_grid(5, 5, 70, 50, 50, 50, 50)
-
+grid = draw_grid(50, 50, 6, (window.width/2)-(20*5+5), (window.height/2)-(20*5+5), 5, 5)
 
 @window.event
 def on_draw():
