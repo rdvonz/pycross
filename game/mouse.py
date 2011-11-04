@@ -6,7 +6,8 @@ Created on Nov 3, 2011
 import pyglet
 class MouseMovement(object):
     '''
-    classdocs
+    This is taken mainly from experimentation and pyglet's
+    example code. :D
     '''
 
 
