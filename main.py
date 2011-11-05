@@ -7,18 +7,19 @@ window = pyglet.window.Window()
 pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
 mouse = pyglet.window.ImageMouseCursor(resources.cursor)
-#cursor = window.set_mouse_cursor(mouse)
+cursor = window.set_mouse_cursor(mouse)
 
-der = level.CreateLevel(pyglet.image.load('resources/levels/lv2.bmp'))
+lvl = level.Level(pyglet.image.load('resources/levels/lv2.bmp'))
 
-der.draw_grid(21, 200, 200, batch)
-
+lvl.draw_grid(21, 200, 200, batch)
+print lvl.row_numbers
+print lvl.column_numbers
 
 @window.event
 def on_draw():
     window.clear()
     batch.draw()
-#    window.set_mouse_cursor(cursor)
+    window.set_mouse_cursor(cursor)
 
 
 def on_mouse_motion(x, y, button, modifiers):
