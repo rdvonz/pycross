@@ -6,22 +6,21 @@ Created on Fri Nov  4 13:26:03 2011
 """
 import pyglet
 import itertools
+
+
 class CreateLevel(object):
+
     def __init__(self, image):
         self.raw_image = image.get_image_data()
-        
-    def grouper:
-    def pixels:
-        
+
+        self.pixels = list(self.grouper(3, self.raw_image.get_data(self.raw_image.format,
+                                self.raw_image.pitch)))
+
+    def grouper(self, n, iterable, fillvalue=None):
+        "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
+        args = [iter(iterable)] * n
+        return itertools.izip_longest(*args, fillvalue=fillvalue)
+
 
 level = CreateLevel(pyglet.image.load('../resources/levels/lv1.bmp'))
-format = level.raw_image.format
-pitch = level.raw_image.pitch
-pixels =  level.raw_image.get_data(format, pitch)
-pix = []
-
-def grouper(n, iterable, fillvalue=None):
-    "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
-    args = [iter(iterable)] * n
-    return itertools.izip_longest(*args, fillvalue=fillvalue)
-
+print level.pixels
