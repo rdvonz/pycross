@@ -1,44 +1,23 @@
 import pyglet
-from game import primitives, mouse, resources
+from game import primitives, resources, level
 
 batch = pyglet.graphics.Batch()
 window = pyglet.window.Window()
-#pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
+pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
-cursor = window.set_mouse_cursor(pyglet.window.ImageMouseCursor(resources.cursor))
-#circle = primitives.Circle(x=window.width / 2, y=window.height / 2,
-#                           radius=50, verts=50, color=(255, 0, 0),
-#                           batch=batch)
+mouse = pyglet.window.ImageMouseCursor(resources.cursor)
+#cursor = window.set_mouse_cursor(mouse)
 
-#square = primitives.Rectangle(color=(123, 132, 100), x=100, y=100, length=40,
-#                              width=40, batch=batch)
+der = level.CreateLevel(pyglet.image.load('resources/levels/lv1.bmp'))
 
+der.draw_grid(21, 200, 200, batch)
 
-def draw_grid(num_x, num_y, spacing, x, y, length, width):
-    primitive_list = []
-    #num_x * num_y gives us the total number of primitives
-    for i in range(num_x):
-            primitive_list.append(primitives.Rectangle(x=x + i * spacing, y=y,
-                                 color=(255, 255, 255), length=length,
-                                 width=width, batch=batch))
-            for j in range(num_y):
-                primitive_list.append(primitives.Rectangle(x=x + i * spacing,
-                                                           y=y + j * spacing,
-                                                           color=(255, 255, 255),
-                                                           length=length,
-                                                           width=width,
-                                                           batch=batch))
-
-    return primitive_list
-
-grid = draw_grid(50, 50, 11, 0, 11*5, 10, 10)
 
 @window.event
 def on_draw():
     window.clear()
     batch.draw()
-    mouse.MouseMovement()
 #    window.set_mouse_cursor(cursor)
 
 
