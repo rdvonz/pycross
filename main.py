@@ -9,7 +9,7 @@ pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 mouse = pyglet.window.ImageMouseCursor(resources.cursor)
 #cursor = window.set_mouse_cursor(mouse)
 
-der = level.CreateLevel(pyglet.image.load('resources/levels/lv1.bmp'))
+der = level.CreateLevel(pyglet.image.load('resources/levels/lv2.bmp'))
 
 der.draw_grid(21, 200, 200, batch)
 

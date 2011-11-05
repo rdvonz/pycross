@@ -25,7 +25,7 @@ class CreateLevel(object):
         self.y = 0
 
         #temp variable to see if drawing works
-        self.count = 0
+        self.count = -1
 
     def grouper(self, n, iterable, fillvalue=None):
         "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
@@ -38,12 +38,11 @@ class CreateLevel(object):
         yone = self.y - (self.length / 2)
         ytwo = self.y + (self.length / 2)
         color = []
+
         for i in range(4):
             color.append(pixel_color[0])
             color.append(pixel_color[1])
             color.append(pixel_color[2])
-            
-            
 
         vertices = (xone, yone, xone,
                     ytwo, xtwo, ytwo, xtwo, yone)
@@ -61,13 +60,13 @@ class CreateLevel(object):
         self.x = x
         self.y = y
         #num_x * num_y gives us the total number of primitives
-        for i in range(self.raw_image.width):
+        for i in range(self.raw_image.height):
                 primitive_list.append(self.rectangle(self.pixels[self.count],
                                                      batch=Batch))
-                self.x = x + i * spacing
+                self.y = y + i * spacing
                 
-                for j in range(self.raw_image.height):
+                for j in range(self.raw_image.width):
                     primitive_list.append(self.rectangle(self.pixels[self.count],
                                                          batch=Batch))
-                    self.y = y + j * spacing
+                    self.x = x + j * spacing
                     self.count+=1
