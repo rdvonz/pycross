@@ -2,7 +2,7 @@
 """
 Created on Sun Nov  6 17:57:29 2011
 
-@author: -
+@author: Robert Von Z
 """
 
 #I've found that there are certain modules that need window attributes,
