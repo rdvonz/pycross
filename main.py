@@ -1,28 +1,53 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov  4 13:26:03 2011
+
+@author: Robert Von Z
+"""
 import pyglet
-from game import primitives, resources, level, window
+from game import resources, level, window, mouse
 pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
-mouse = pyglet.window.ImageMouseCursor(resources.cursor)
-cursor = window.window.set_mouse_cursor(mouse)
-
-lvl = level.Level(pyglet.image.load('resources/levels/lv2.bmp'))
+lvl = level.Level(pyglet.image.load('resources/levels/test5.bmp'))
 
 lvl.draw_picross()
+secs = 60*15
+cur_time = 0
+decrement = 5
+time = pyglet.text.Label(str(secs),
+                         x = 50,
+                         y = 400)
 
 @window.window.event
 def on_draw():
     window.window.clear()
     window.batch.draw()
-    window.window.set_mouse_cursor(cursor)
-
-
-def on_mouse_motion(x, y, button, modifiers):
-    pass
-
-
+    time.draw()
 def update(dt):
-    #This is probably not the correct way to do this)
-    window.window.push_handlers(on_mouse_motion)
+    window.window.clear()
+    global secs
+    global cur_time
+    global time
+    global decrement
+    global cur_color
+    cur_time+=dt
+    
+    if cur_time >= 1:
+        secs -= 1
+        time.begin_update()
+        time = pyglet.text.Label(str(secs),
+                             x = 50,
+                             y = 400,
+                             batch = window.batch)
+        cur_time = 0
+    if secs <= 0:
+        print "you lost"
+        #exit(0)
+    window.window.push_handlers(mouse.on_mouse_press)
+    for cell in lvl.cell_list:
+        if mouse.hover(mouse.on_mouse_press, cell):
+                if cell.is_tile:
+                    cell.vertex_list.colors[:3] = [0,0,0]
 
 
 if __name__ == '__main__':
