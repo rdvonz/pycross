@@ -5,18 +5,27 @@ Created on Nov 3, 2011
 '''
 import pyglet
 import resources
+import window
+from pyglet.window import mouse
+
+#mouse_icon = pyglet.window.ImageMouseCursor(resources.cursor)
+#set_cursor = window.window.set_mouse_cursor(mouse_icon)
+
+mouse_location = (0,0)
+
+@window.window.event
+def on_mouse_press(x, y, buttons, modifiers):
+    global mouse_location
+    if buttons == mouse.LEFT:
+        mouse_location = (x, y)
+        return True
+
+def hover(mouse, objtwo):
+    global mouse_location
+    bx = ((objtwo.x - (objtwo.width / 2)), (objtwo.x + (objtwo.width / 2)))
+    by = (objtwo.y - objtwo.height / 2, objtwo.y + objtwo.height / 2)
+    if (bx[1] > mouse_location[0] > bx[0]):
+        if (by[1] > mouse_location[1] > by[0]):
+            return True
 
 
-class MouseMovement(object):
-
-    '''
-    This is taken mainly from experimentation and pyglet's
-    example code. :D
-    '''
-
-    def __init__(self):
-        self.cursor = pyglet.window.ImageMouseCursor(resources.cursor, 0, 0)
-
-    def hover(self, other_object):
-        pass
-                
