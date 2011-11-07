@@ -42,41 +42,51 @@ class Level(object):
 
         self.row_numbers = self.get_numbers(self.rows)
         self.column_numbers = self.get_numbers(self.columns)
-
+        
+        
+        print 'ROW:', self.row_numbers
+        print 'COLUMN', self.column_numbers
+        self.cell_list = []
+        
+        #Tile specific variables
+        self.width = 20
+        self.height = 20
+        self.spacing = 1
+        
+        #Grid Centering variables
+        self.total_width = (self.raw_image.width * self.width) + (self.spacing * self.raw_image.width -1)
+        self.total_height = (self.raw_image.height * self.height) + (self.spacing * self.raw_image.height -1)
+        
     def draw_picross(self):
         '''
         Really messy, as a result of making a cell it's own class.
         Reasoning: To get boolean values on whether you solve it there.
         '''
-        #total width is the length of the tile * (# tiles + spacing)
+        #total width is the height of the tile * (# tiles + spacing)
         #For some reason it's off by one tile. Which is why I'm subtracting 21
-        self.total_width = ((self.raw_image.width + 1) * 20) - 21
-        self.total_length = ((self.raw_image.width + 1) * 20) - 21
 
         #Stores every cell object, this will be used for game logic later on
-        cell_list = []
-
-        #Centers the picross game, will be changed soon
-        center_x = (window.window.width - self.total_width) / 2
-        center_y = (window.window.height - self.total_length) / 2
+        self.cell_list = []
 
         count = 0
 
-        #Length of Tile * height of tile = total tiles
+        #height of Tile * height of tile = total tiles
+        center_x = (window.window.width - self.total_width) / 2
+        center_y = (window.window.height - self.total_height) / 2
+
         for i in range(self.raw_image.width):
-            x = center_x + 21 * i
-            y = center_y
+            y = center_y + (self.height + self.spacing) * i
+            x = center_x
 
             for j in range(self.raw_image.height):
-                y = center_y + 21 * j
+                x = center_x + (self.width + self.spacing) * j
 
                 if 0 == self.pixels[count][0]:
                     is_tile = True
                 else:
                     is_tile = False
 
-                cell_list.append(Cell(20, 20, x, y,  is_tile))
-                print cell_list[count].is_tile
+                self.cell_list.append(Cell(self.width, self.height, x, y,  is_tile))
                 count += 1
 
     def get_row(self):
@@ -84,7 +94,7 @@ class Level(object):
         Splits image into rows
         (Useful for getting picross numbers)
         '''
-        return list(grouper(10, self.pixels))
+        return list(grouper(self.raw_image.width, self.pixels))
 
     def get_column(self):
         '''
@@ -92,7 +102,6 @@ class Level(object):
         (useful for picross numbers)
         '''
         column = []
-
         for cur_column in range(self.raw_image.width):
             cells = []
             for row in self.rows:
@@ -113,35 +122,39 @@ class Level(object):
                     cur_cells.append(len(list(g)))
             cell_numbers.append(cur_cells)
         return cell_numbers
-
-
+    
 class Cell(object):
 
-        def __init__(self, width, length, x, y, is_tile, group=None):
-            '''
-            Constructs a rectangle
-            mainly made to solve the need for an is_tile value
-            '''
-            self.x = x
-            selfy = y
-            self.is_tile = is_tile
-            xone = x - (width / 2)
-            xtwo = x + (width / 2)
-            yone = y - (width / 2)
-            ytwo = y + (width / 2)
-            pixel_color = [255, 255, 255]
-            color = []
-            for i in range(4):
-                color.append(pixel_color[0])
-                color.append(pixel_color[1])
-                color.append(pixel_color[2])
+    def __init__(self, width, height, x, y, is_tile, group=None):
+        '''
+        Constructs a rectangle
+        mainly made to solve the need for an is_tile value
+        '''
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.is_tile = is_tile
+        self.is_clicked = False
 
-            vertices = (xone, yone, xone,
-                        ytwo, xtwo, ytwo, xtwo, yone)
+        xone = x - (self.width / 2)
+        xtwo = x + (self.width / 2)
+        yone = y - (self.width / 2)
+        ytwo = y + (self.width / 2)
+        pixel_color = [255, 255, 255]
+        color = []
 
-            indices = [0, 1, 2, 0, 2, 3]
+        for i in range(4):
+            color.append(pixel_color[0])
+            color.append(pixel_color[1])
+            color.append(pixel_color[2])
 
-            self.vertex_list = window.batch.add_indexed(4, GL_TRIANGLES, group,
-                                                     indices,
-                                                     ('v2f', vertices),
-                                                     ('c3B', color))
+        vertices = (xone, yone, xone,
+                    ytwo, xtwo, ytwo, xtwo, yone)
+
+        indices = [0, 1, 2, 0, 2, 3]
+
+        self.vertex_list = window.batch.add_indexed(4, GL_TRIANGLES, group,
+                                                 indices,
+                                                 ('v2f', vertices),
+                                                 ('c3B', color))
