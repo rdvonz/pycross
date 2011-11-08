@@ -34,7 +34,8 @@ class Level(object):
         3, self.raw_image.get_data(self.raw_image.format,
                                 self.raw_image.pitch)))
         self.spacing = 1
-
+        self.x = 40
+        self.y = 40
         #Holds the data for each row and each column
 
         self.rows = self.get_row()
@@ -52,42 +53,13 @@ class Level(object):
         self.width = 20
         self.height = 20
         self.spacing = 1
+        self.x = 0
+        self.y = 0
+        print self.pixels
         
         #Grid Centering variables
         self.total_width = (self.raw_image.width * self.width) + (self.spacing * self.raw_image.width -1)
         self.total_height = (self.raw_image.height * self.height) + (self.spacing * self.raw_image.height -1)
-        
-    def draw_picross(self):
-        '''
-        Really messy, as a result of making a cell it's own class.
-        Reasoning: To get boolean values on whether you solve it there.
-        '''
-        #total width is the height of the tile * (# tiles + spacing)
-        #For some reason it's off by one tile. Which is why I'm subtracting 21
-
-        #Stores every cell object, this will be used for game logic later on
-        self.cell_list = []
-
-        count = 0
-
-        #height of Tile * height of tile = total tiles
-        center_x = (window.window.width - self.total_width) / 2
-        center_y = (window.window.height - self.total_height) / 2
-
-        for i in range(self.raw_image.width):
-            y = center_y + (self.height + self.spacing) * i
-            x = center_x
-
-            for j in range(self.raw_image.height):
-                x = center_x + (self.width + self.spacing) * j
-
-                if 0 == self.pixels[count][0]:
-                    is_tile = True
-                else:
-                    is_tile = False
-
-                self.cell_list.append(Cell(self.width, self.height, x, y,  is_tile))
-                count += 1
 
     def get_row(self):
         '''
@@ -122,33 +94,41 @@ class Level(object):
                     cur_cells.append(len(list(g)))
             cell_numbers.append(cur_cells)
         return cell_numbers
-    
+        
+    def draw_picross(self):
+        x = 50
+        y = 50
+        self.cell_list = []
+        count = 0
+        for i in range(self.raw_image.width):
+            y+=21
+            x=50
+            for j in range(self.raw_image.height):
+                print self.pixels[count],'\n'
+                self.cell_list.append(Cell(20,20,x,y,self.pixels[count]))
+                x+=21
+                count+=1
+        print self.raw_image.width*self.raw_image.height
+
 class Cell(object):
 
-    def __init__(self, width, height, x, y, is_tile, group=None):
+    def __init__(self, width, height, x, y, tile, group=None):
         '''
         Constructs a rectangle
         mainly made to solve the need for an is_tile value
         '''
         self.x = x
         self.y = y
+        self.tile = tile
         self.width = width
-        self.height = height
-        self.is_tile = is_tile
+        self.height = height        
+        self.is_tile = self.check_tile()
         self.is_clicked = False
 
         xone = x - (self.width / 2)
         xtwo = x + (self.width / 2)
         yone = y - (self.width / 2)
         ytwo = y + (self.width / 2)
-        pixel_color = [255, 255, 255]
-        color = []
-
-        for i in range(4):
-            color.append(pixel_color[0])
-            color.append(pixel_color[1])
-            color.append(pixel_color[2])
-
         vertices = (xone, yone, xone,
                     ytwo, xtwo, ytwo, xtwo, yone)
 
@@ -157,4 +137,9 @@ class Cell(object):
         self.vertex_list = window.batch.add_indexed(4, GL_TRIANGLES, group,
                                                  indices,
                                                  ('v2f', vertices),
-                                                 ('c3B', color))
+                                                 ('c3B', [255,255,255]*4))
+    def check_tile(self):
+        if 0 in self.tile:
+            return True
+        else:
+            return False

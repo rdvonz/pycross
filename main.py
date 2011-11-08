@@ -8,7 +8,7 @@ import pyglet
 from game import resources, level, window, mouse
 pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
-lvl = level.Level(pyglet.image.load('resources/levels/test5.bmp'))
+lvl = level.Level(pyglet.image.load('resources/levels/testgrid.bmp'))
 
 lvl.draw_picross()
 secs = 60*15
@@ -43,11 +43,10 @@ def update(dt):
     if secs <= 0:
         print "you lost"
         #exit(0)
-    window.window.push_handlers(mouse.on_mouse_press)
     for cell in lvl.cell_list:
-        if mouse.hover(mouse.on_mouse_press, cell):
-                if cell.is_tile:
-                    cell.vertex_list.colors[:3] = [0,0,0]
+            print cell.is_tile
+                
+    window.window.push_handlers(mouse.on_mouse_press)
 
 
 if __name__ == '__main__':
