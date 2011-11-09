@@ -5,48 +5,36 @@ Created on Fri Nov  4 13:26:03 2011
 @author: Robert Von Z
 """
 import pyglet
-from game import resources, level, window, mouse
+from game import resources, level, window, interaction
 pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 
-lvl = level.Level(pyglet.image.load('resources/levels/testgrid.bmp'))
+#Player interaction class
+interact = interaction.Interaction()
 
-lvl.draw_picross()
-secs = 60*15
-cur_time = 0
-decrement = 5
-time = pyglet.text.Label(str(secs),
-                         x = 50,
-                         y = 400)
+#Load the current level
+lvl = level.Level(pyglet.image.load('resources/levels/lv3.bmp')).draw_grid()
+
 
 @window.window.event
 def on_draw():
     window.window.clear()
     window.batch.draw()
-    time.draw()
+
+
 def update(dt):
-    window.window.clear()
-    global secs
-    global cur_time
-    global time
-    global decrement
-    global cur_color
-    cur_time+=dt
-    
-    if cur_time >= 1:
-        secs -= 1
-        time.begin_update()
-        time = pyglet.text.Label(str(secs),
-                             x = 50,
-                             y = 400,
-                             batch = window.batch)
-        cur_time = 0
-    if secs <= 0:
-        print "you lost"
-        #exit(0)
-    for cell in lvl.cell_list:
-            print cell.is_tile
-                
-    window.window.push_handlers(mouse.on_mouse_press)
+    #Event loop
+
+    #Iterates over every tile in the level
+    for tile in lvl:
+        #If, on a mouse press, user is currently hovering over a tile
+        if interact.hover(tile):
+            #and the tile is a solution
+            if tile.is_tile:
+                #Change the color to black
+                tile.vertex_list.colors[:12] = [0, 0, 0] * 4
+            else:
+                tile.is_clicked = True
+    window.window.push_handlers(interact.on_mouse_press)
 
 
 if __name__ == '__main__':
