@@ -1,12 +1,36 @@
-Hello there!
+Pycross in python!
+-------------------------------------------------------------------------------
+This version of picross can currently:
 
-This isn't really even close to picross yet. All the activity is currently
-in the testing branch, and it's mostly experiments I'm running to figure
-out open gl and pyglet. However, with any luck this will blossom into the
-greatest picross clone ever!
+*load a picross level from an image (easy level editing!)
 
-Well, probably unlikely. But it will be fun either way.
-Oh, and if you see any mistakes or better methods of doing what I'm doing,
-definitely tell me. This is about learning after all, right?
+*Display a grid using pyglet
+
+*Get the numbers needed to solve the picross
+(It can't, however, display these in a nice graphical way. You can
+print it all to the console and try to solve it that way though :D)
+
+*Click tiles and, depending on whether they are a solution in the picross,
+color them black (mouse detection! tiles! wooh!)
+-------------------------------------------------------------------------------
+
+[[0 1 0 0 0 0 0 0 0 0 0 0 0 1 0]
+ [0 1 0 0 0 1 1 1 1 1 0 0 0 1 0]
+ [0 1 0 0 1 0 0 1 0 0 1 0 0 1 0]
+ [0 1 0 1 0 0 1 1 1 0 0 1 0 1 0]
+ [0 1 0 1 0 0 0 0 0 0 0 1 0 1 0]
+ [0 1 0 1 0 0 0 0 0 0 0 1 0 1 0]
+ [0 1 0 1 0 1 0 0 0 1 0 1 0 1 0]
+ [0 1 0 1 0 0 0 0 0 0 0 1 0 1 0]
+ [0 1 0 0 1 0 0 0 0 0 1 0 0 1 0]
+ [0 1 0 0 0 1 1 1 1 1 0 0 0 1 0]
+ [0 1 0 0 0 0 0 0 0 0 0 0 0 1 0]
+ [0 1 0 0 0 1 1 1 1 1 0 0 0 1 0]
+ [0 1 0 0 1 0 0 0 0 0 1 0 0 1 0]
+ [0 1 0 0 1 0 0 0 0 0 1 0 0 1 0]
+ [0 0 1 1 0 0 0 0 0 0 0 1 1 0 0]]
+
+For more up-to-date progress reports of the current state of pycross, switch
+to testing.
 
 Jacob is incompetent
