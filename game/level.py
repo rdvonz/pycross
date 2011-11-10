@@ -38,6 +38,15 @@ class Level(object):
         self.row_numbers = self.get_numbers(self.grid)
         self.column_numbers = self.get_numbers(self.column_grid)
 
+        #Some default parameters of the tiles:
+        self.tile_width = 20
+        self.tile_height = 20
+
+        #Spacings is the width or height + 1 (assuming a square)
+        self.tile_spacing = 21
+        self.total_width = self.tile_spacing * self.width
+        self.total_height = self.tile_spacing * self.height
+
     def get_grid(self):
         '''
         Takes a 16bit bmp image and generates an array
@@ -48,44 +57,41 @@ class Level(object):
         img_data = list(self.raw_image.get_data('RGB', self.width * 3))
 
         #Temp list to create an array
-        cells = []
+        tiles = []
         for pixel in list(grouper(3, img_data)):
             if '\x00' in pixel or 0 in pixel:
-                cells.append(1)
+                tiles.append(1)
             else:
-                cells.append(0)
+                tiles.append(0)
 
         #Create the grid
-        grid = array(cells).reshape(self.width, self.height)
+        grid = array(tiles).reshape(self.width, self.height)
         return grid
 
     def draw_grid(self):
         '''
         Creates a matrix of tiles that can be drawn on the screen
         '''
-        #Some default parameters of the tiles:
-        width = 20
-        height = 20
-        #Spacings is the width or height + 1 (assuming a square)
-        spacing = 21
-        total_width = spacing * self.width
-        total_height = spacing * self.height
 
         #Variables to center the picross (offsets can be applied later)
-        center_x = (window.window.width - total_width) / 2
-        center_y = (window.window.height - total_height) / 2
+        center_x = (window.window.width -self.total_width) / 2
+        center_y = (window.window.height - self.total_height) / 2
 
-        cell_list = []
+        tile_list = []
 
         y = center_y
         for tiles in self.grid:
-            y += 21
+            y += self.tile_spacing
             x = center_x
             for tile in tiles:
-                cell_list.append(Cell(width, height, x, y, tile))
-                x += 21
+                tile_list.append(Tile(self.tile_width, self.tile_height, 
+                                      x, y, tile))
+                x += self.tile_spacing
 
-        return cell_list
+        return tile_list
+        
+    def draw_numbers(self):
+        pass
 
     def get_column(self, grid):
         '''
@@ -116,7 +122,7 @@ class Level(object):
         return numbers
 
 
-class Cell(object):
+class Tile(object):
 
     def __init__(self, width, height, x, y, is_tile, group=None):
         #Width attribute is a must to get mouse detection
@@ -150,3 +156,12 @@ class Cell(object):
                                                  indices,
                                                  ('v2f', vertices),
                                                  ('c3B', self.base_color * 4))
+
+class Numbers(pyglet.text.Label):
+    '''
+    Draws numbers and rows for solving a picross
+    '''
+    def __init__(self, column_numbers, row_numbers, *args, **kwargs):
+        Super().__init__(text, x, y, width, height)
+        
+        

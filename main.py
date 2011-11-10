@@ -12,8 +12,10 @@ pyglet.gl.glClearColor(0.2, 0.4, 0.5, 1.0)
 interact = interaction.Interaction()
 
 #Load the current level
-lvl = level.Level(pyglet.image.load('resources/levels/lv3.bmp')).draw_grid()
-
+lvl = level.Level(pyglet.image.load('resources/levels/lv3.bmp'))
+gameboard = lvl.draw_grid()
+lvl.draw_numbers()
+print lvl.row_numbers
 
 @window.window.event
 def on_draw():
@@ -25,7 +27,7 @@ def update(dt):
     #Event loop
 
     #Iterates over every tile in the level
-    for tile in lvl:
+    for tile in gameboard:
         #If, on a mouse press, user is currently hovering over a tile
         if interact.hover(tile):
             #and the tile is a solution

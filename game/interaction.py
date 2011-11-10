@@ -40,5 +40,4 @@ class Interaction(object):
         '''
         if buttons == mouse.LEFT:
             self.mouse_location = (x, y)
-            print 'lol'
             return True
