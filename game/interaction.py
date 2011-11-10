@@ -7,16 +7,19 @@ import pyglet
 import resources
 import window
 from pyglet.window import mouse
-
+import level
 #mouse_icon = pyglet.window.ImageMouseCursor(resources.cursor)
 #set_cursor = window.window.set_mouse_cursor(mouse_icon)
 
 
-class Interaction(object):
-    def __init__(self):
-        self.mouse_location = (0, 0)
-
-    def hover(self, obj):
+class Interaction():
+    def __init__(self, grid):
+        self.LEFT = 1
+        self.RIGHT = 2
+        self.i = 0
+        self.grid = grid
+        window.window.push_handlers(self.on_mouse_press)
+    def hover(self, obj, mouse_location, button):
         '''
         Checks if mouse is hovering over an object
         '''
@@ -30,14 +33,45 @@ class Interaction(object):
                  obj.y + obj.height / 2)
 
         #Checks if mouse coords are intersecting with object bounds
-        if (obj_x[1] > self.mouse_location[0] > obj_x[0]):
-            if (obj_y[1] > self.mouse_location[1] > obj_y[0]):
-                return True
-
+        if (obj_x[1] > mouse_location[0] > obj_x[0]):
+            if (obj_y[1] > mouse_location[1] > obj_y[0]):
+                self.i+=1
+                return button
+        
     def on_mouse_press(self, x, y, buttons, modifiers):
         '''
         Event handler used to poll for mouse presses
         '''
         if buttons == mouse.LEFT:
-            self.mouse_location = (x, y)
-            return True
+            self.grid_interaction((x, y), self.LEFT)
+
+        elif buttons == mouse.RIGHT:
+            self.grid_interaction((x, y), self.RIGHT)
+        return True
+
+
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        pass
+
+    def grid_interaction(self, (x,y), button):
+    
+        #Event loop
+    
+        #Iterates over every tile in the level
+        for tile in self.grid:
+            #If, on a mouse press, user is currently hovering over a tile
+            if self.hover(tile, (x,y), button) == self.LEFT:
+                #and the tile is a solution
+                if tile.is_tile:
+                    #Change the color to black
+                    tile.vertex_list.colors[:12] = (0, 0, 0) * 4
+                else:
+                    tile.is_clicked = True
+    
+            elif self.hover(tile, (x,y), button) == self.RIGHT:
+                if not(tile.is_marked):
+                    tile.vertex_list.colors[:12] = (255, 0, 0) * 4
+                    tile.is_marked = True
+                elif tile.is_marked:
+                    tile.vertex_list.colors[:12] = (255, 255, 255) * 4
+                    tile.is_marked = False
