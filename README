@@ -6,13 +6,14 @@ This version of picross can currently:
 
 *Display a grid using pyglet
 
-*Get the numbers needed to solve the picross
-(It can't, however, display these in a nice graphical way. You can
-print it all to the console and try to solve it that way though :D)
+*Allow you to mark tiles using the right mouse button
+
+*Draw the numbers needed to solve the picross (still needs work).
 
 *Click tiles and, depending on whether they are a solution in the picross,
 color them black (mouse detection! tiles! wooh!)
 -------------------------------------------------------------------------------
+Example output of the level loader (this is Finn from adventure time):
 
 [[0 1 0 0 0 0 0 0 0 0 0 0 0 1 0]
  [0 1 0 0 0 1 1 1 1 1 0 0 0 1 0]
