@@ -42,10 +42,17 @@ class Level(object):
         self.tile_width = 20
         self.tile_height = 20
 
-        #Spacings is the width or height + 1 (assuming a square)
-        self.tile_spacing = 21
+        #Spacing is the width or height + 1 (assuming a square)
+        self.tile_spacing = self.tile_width + 1
         self.total_width = self.tile_spacing * self.width
         self.total_height = self.tile_spacing * self.height
+
+        #Variables used for the grid
+        self.offset_x = 50
+        self.offset_y = -50
+        self.pos_x = (window.window.width - self.total_width +
+        self.tile_width / 2 + (self.tile_spacing - self.tile_width)) - self.offset_x
+        self.pos_y = (self.tile_height / 2) - self.offset_y
 
     def get_grid(self):
         '''
@@ -73,25 +80,51 @@ class Level(object):
         Creates a matrix of tiles that can be drawn on the screen
         '''
 
-        #Variables to center the picross (offsets can be applied later)
-        center_x = (window.window.width -self.total_width) / 2
-        center_y = (window.window.height - self.total_height) / 2
+        #Variables to place the picross grid
 
         tile_list = []
 
-        y = center_y
+        y = self.pos_y
         for tiles in self.grid:
-            y += self.tile_spacing
-            x = center_x
-            for tile in tiles:
-                tile_list.append(Tile(self.tile_width, self.tile_height, 
-                                      x, y, tile))
-                x += self.tile_spacing
 
+            x = self.pos_x
+            for tile in tiles:
+                tile_list.append(Tile(self.tile_width, self.tile_height,
+                                      x, y, tile))
+
+                x += self.tile_spacing
+            y += self.tile_spacing
         return tile_list
-        
-    def draw_numbers(self):
-        pass
+
+    def draw_column_numbers(self):
+        y = self.pos_y - 5
+        for numbers in self.row_numbers:
+            x = self.pos_x - 20
+            for number in numbers:
+                pyglet.text.Label(str(number),
+                                  x=x,
+                                  y=y,
+                                  font_size=10,
+                                  color=(0, 0, 0, 255),
+                                  batch=window.batch)
+                x -= 10
+            y += self.tile_spacing
+    
+    def draw_row_numbers(self):
+        x = self.pos_x - 10
+        for numbers in self.column_numbers:
+            y = self.pos_y + self.total_height
+            
+            for number in numbers:
+                print number
+                pyglet.text.Label(str(number),
+                                  x=x,
+                                  y=y,
+                                  font_size=10,
+                                  color=(0, 0, 0, 255),
+                                  batch = window.batch)
+                y += 15
+            x += self.tile_spacing                    
 
     def get_column(self, grid):
         '''
@@ -115,6 +148,8 @@ class Level(object):
         numbers = []
         for tiles in grid:
             cur_row = []
+            if sum(tiles) == 0:
+                cur_row.append(0)
             for k, g in groupby(tiles):
                 if k:
                     cur_row.append(len(list(g)))
@@ -136,6 +171,7 @@ class Tile(object):
         #Some boolean values to check stuff:
         self.is_tile = is_tile
         self.is_clicked = 0
+        self.is_marked = False
 
         #This will be used later (maybe) for colorful picrosses
         #It's currently white.
@@ -163,5 +199,4 @@ class Numbers(pyglet.text.Label):
     '''
     def __init__(self, column_numbers, row_numbers, *args, **kwargs):
         Super().__init__(text, x, y, width, height)
-        
-        
+

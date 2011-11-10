@@ -9,5 +9,5 @@ Created on Sun Nov  6 17:57:29 2011
 #so I'm instantiating it here for now.
 import pyglet
 
-window = pyglet.window.Window()
+window = pyglet.window.Window(width=800, height=600)
 batch = pyglet.graphics.Batch()

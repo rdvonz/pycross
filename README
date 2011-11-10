@@ -11,12 +11,38 @@ This version of picross can currently:
 
 *Display a grid using pyglet
 
-*Get the numbers needed to solve the picross
-(It can't, however, display these in a nice graphical way. You can
-print it all to the console and try to solve it that way though :D)
+*Allow you to mark tiles using the right mouse button
+
+*Draw the numbers needed to solve the picross (still needs work).
 
 *Click tiles and, depending on whether they are a solution in the picross,
 color them black (mouse detection! tiles! wooh!)
+
+TODO:
+-------------------------------------------------------------------------------
+* Turn Tile class from a class that draws primitive using openGL.
+    This was cool at first, but realistically, pyglet deals with textured
+    objects a lot more eleganty then I ever could.
+
+* Lines that divide grids by 5s
+    Every picross has this.
+
+* Timer (ability to lose)
+    If the user hits the wrong tile, dock time to solve the picross
+
+* Grid that positions and resizes itself in a more intelligent way
+    Currently the grid just sticks itself 50 pixels away from the bottom-
+    righthand corner of the screen. If a grid is particularly complex or large,
+    parts will be shown appearing outside of the screen.
+
+* Actual graphics
+    Blue background on white grid, red and black tiles, black text. Exciting.
+
+* Menus, Level selection, Music
+    Way down the line.
+
+
+Example output of the level loader (this is Finn from adventure time):
 -------------------------------------------------------------------------------
 
 [[0 1 0 0 0 0 0 0 0 0 0 0 0 1 0]
@@ -37,5 +63,5 @@ color them black (mouse detection! tiles! wooh!)
 
 For more up-to-date progress reports of the current state of pycross, switch
 to testing.
-
+-------------------------------------------------------------------------------
 Jacob is incompetent
