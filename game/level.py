@@ -10,6 +10,7 @@ from itertools import groupby
 from itertools import izip_longest
 from numpy import array
 import window
+import resources
 
 
 def grouper(n, iterable, fillvalue=None):
@@ -36,9 +37,9 @@ class Level(object):
         self.grid = self.get_grid()
         self.column_grid = self.get_column(self.grid)
         self.row_numbers = self.get_numbers(self.grid)
-        self.column_numbers = self.get_numbers(self.column_grid)
+        self.column_numbers = self.get_numbers(self.column_grid) 
 
-        #Some default parameters of the tiles:
+        #Some default parameters of the tiles DEPRECATED:
         self.tile_width = 20
         self.tile_height = 20
 
@@ -89,8 +90,7 @@ class Level(object):
 
             x = self.pos_x
             for tile in tiles:
-                tile_list.append(Tile(self.tile_width, self.tile_height,
-                                      x, y, tile))
+                tile_list.append(Tile_Sprite(tile, x, y, batch=window.batch))
 
                 x += self.tile_spacing
             y += self.tile_spacing
@@ -159,7 +159,8 @@ class Level(object):
 
 class Tile(object):
 
-    def __init__(self, width, height, x, y, is_tile, group=None):
+    def __init__(self, width, height, x, y, is_tile, group = None):
+
         #Width attribute is a must to get mouse detection
         self.width = width
         self.height = height
@@ -192,6 +193,20 @@ class Tile(object):
                                                  indices,
                                                  ('v2f', vertices),
                                                  ('c3B', self.base_color * 4))
+                                                 
+class Tile_Sprite(pyglet.sprite.Sprite):
+    def __init__(self, is_tile, x, y, batch=None):
+        super(Tile_Sprite, self).__init__(img = resources.tile, x = x, y = y, batch=batch)
+        self.is_tile = is_tile
+        self.is_clicked = 0
+        self.is_marked = 0
+    def change_image(self, state):
+        if state == 'clicked':
+            self.image = resources.clicked
+        elif state == 'marked':
+            self.image = resources.marked
+        elif state == 'normal':
+                self.image = resources.tile
 
 class Numbers(pyglet.text.Label):
     '''

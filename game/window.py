@@ -11,3 +11,4 @@ import pyglet
 
 window = pyglet.window.Window(width=800, height=600)
 batch = pyglet.graphics.Batch()
+grid = pyglet.graphics.Batch()

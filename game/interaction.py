@@ -64,14 +64,14 @@ class Interaction():
                 #and the tile is a solution
                 if tile.is_tile:
                     #Change the color to black
-                    tile.vertex_list.colors[:12] = (0, 0, 0) * 4
+                    tile.change_image('clicked')
                 else:
                     tile.is_clicked = True
     
             elif self.hover(tile, (x,y), button) == self.RIGHT:
                 if not(tile.is_marked):
-                    tile.vertex_list.colors[:12] = (255, 0, 0) * 4
+                    tile.change_image('marked')
                     tile.is_marked = True
                 elif tile.is_marked:
-                    tile.vertex_list.colors[:12] = (255, 255, 255) * 4
+                    tile.change_image('normal')
                     tile.is_marked = False
