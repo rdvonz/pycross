@@ -49,11 +49,12 @@ class Level(object):
         self.total_height = self.tile_spacing * self.height
 
         #Variables used for the grid
-        self.offset_x = 50
-        self.offset_y = -50
+        self.offset_x = 100
+        self.offset_y = -100
         self.pos_x = (window.window.width - self.total_width +
         self.tile_width / 2 + (self.tile_spacing - self.tile_width)) - self.offset_x
         self.pos_y = (self.tile_height / 2) - self.offset_y
+        self.gutters = []
 
     def get_grid(self):
         '''
@@ -97,31 +98,40 @@ class Level(object):
         return tile_list
 
     def draw_column_numbers(self):
-        y = self.pos_y - 5
+        y = self.pos_y
         for numbers in self.row_numbers:
             x = self.pos_x - 20
             for number in numbers:
+                self.gutters.append(pyglet.sprite.Sprite(img=resources.gutter,
+                                                      x=x,
+                                                      y=y,
+                                                      batch=window.batch))
                 pyglet.text.Label(str(number),
-                                  x=x,
-                                  y=y,
-                                  font_size=10,
-                                  color=(0, 0, 0, 255),
+                                  font_name='8BIT WONDER',
+                                  x=x-5,
+                                  y=y-5,
+                                  font_size=7,
+                                  color=(255, 255, 255, 255),
                                   batch=window.batch)
-                x -= 10
+                x -= 20
             y += self.tile_spacing
     
     def draw_row_numbers(self):
-        x = self.pos_x - 10
+        x = self.pos_x
         for numbers in self.column_numbers:
             y = self.pos_y + self.total_height
             
             for number in numbers:
-                print number
+                self.gutters.append(pyglet.sprite.Sprite(img=resources.gutter,
+                                 x=x,
+                                 y=y,
+                                 batch=window.batch))
                 pyglet.text.Label(str(number),
-                                  x=x,
+                                  font_name = '8BIT WONDER',
+                                  x=x-7,
                                   y=y,
-                                  font_size=10,
-                                  color=(0, 0, 0, 255),
+                                  font_size=7,
+                                  color=(255, 255, 255, 255),
                                   batch = window.batch)
                 y += 15
             x += self.tile_spacing                    
